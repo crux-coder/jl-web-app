@@ -214,6 +214,9 @@ export default function Searches(props) {
         .then(function (response) {
           callback(response.data, param, params);
           refreshUser();
+          if (index === 0) {
+            setValue(searchResults.length);
+          }
         })
         .catch(function (error) {
           refreshUser();
