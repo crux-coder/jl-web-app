@@ -1,24 +1,31 @@
-import React, { useEffect, useState } from "react";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
-import { Container, Button, IconButton, Tooltip, Grow, Alert } from "@mui/material";
-import SearchQuery from "./SearchQuery";
-import "../assets/css/App.css";
-import GeoLocationSelect from "./GeoLocationSelect";
-import DataTable from "./DataTable";
-import NumberOfResults from "./NumberOfResults";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
-import LinearProgress from "@mui/material/LinearProgress";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import PropTypes from "prop-types";
-import { useTheme } from "@mui/material/styles";
+import React, { useEffect, useState } from 'react';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import {
+  Container,
+  Button,
+  IconButton,
+  Tooltip,
+  Grow,
+  Alert,
+} from '@mui/material';
+import SearchQuery from './SearchQuery';
+import '../assets/css/App.css';
+import GeoLocationSelect from './GeoLocationSelect';
+import DataTable from './DataTable';
+import NumberOfResults from './NumberOfResults';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+import LinearProgress from '@mui/material/LinearProgress';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import PropTypes from 'prop-types';
+import { useTheme } from '@mui/material/styles';
 import ConfirmSearchDialog from './ConfirmSearchDialog';
 import CloseIcon from '@mui/icons-material/Close';
-import ConfirmImportDialog from "./ConfirmImportDialog";
+import ConfirmImportDialog from './ConfirmImportDialog';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { v4 as uuid } from 'uuid';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
@@ -31,13 +38,17 @@ function LinearProgressWithLabel(props) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', mx: 3, mb: 2 }}>
       <Box sx={{ minWidth: 200 }}>
-        <Typography variant="body2" color="text.secondary">Search progress</Typography>
+        <Typography variant="body2" color="text.secondary">
+          Search progress
+        </Typography>
       </Box>
       <Box sx={{ width: '100%', mr: 1 }}>
         <LinearProgress variant="determinate" value={value} />
       </Box>
       <Box sx={{ minWidth: 50 }}>
-        <Typography variant="body2" color="text.secondary">{`${Math.round(value)}%`}</Typography>
+        <Typography variant="body2" color="text.secondary">{`${Math.round(
+          value
+        )}%`}</Typography>
       </Box>
     </Box>
   );
@@ -72,7 +83,7 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `full-width-tab-${index}`,
-    "aria-controls": `full-width-tabpanel-${index}`,
+    'aria-controls': `full-width-tabpanel-${index}`,
   };
 }
 
@@ -80,7 +91,7 @@ export default function Searches(props) {
   const { user, refreshUser } = props;
   const theme = useTheme();
   const [searchQueries, setSearchQueries] = useState([]);
-  const [locations, setLocations] = useState(["United States"]);
+  const [locations, setLocations] = useState(['United States']);
   const [numberOfResults, setNumberOfResults] = useState(100);
   const [confirmSearchModalOpen, setConfirmSearchModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
@@ -101,22 +112,22 @@ export default function Searches(props) {
 
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
-  }
+  };
 
   const handleCloseImportModal = () => {
     setImportModalOpen(false);
-  }
+  };
 
   const openImportModal = () => {
     setImportModalOpen(true);
-  }
+  };
 
   const completeImport = (_searchResult) => {
     setImportModalOpen(false);
     const _searchResults = [...searchResults, _searchResult];
     setSearchResults(_searchResults);
     setValue(_searchResults.length - 1);
-  }
+  };
 
   const selectTabAfterClosing = (index, _results) => {
     if (value === index || index < value) {
@@ -124,20 +135,21 @@ export default function Searches(props) {
     } else if (value >= _results.length) {
       setValue(_results.length - 1);
     }
-  }
+  };
 
   const closeTab = (e, index) => {
     e.stopPropagation();
     searchResults.splice(index, 1);
     setSearchResults([...searchResults]);
     selectTabAfterClosing(index, [...searchResults]);
-  }
+  };
 
   const validateFields = () => {
     let _errors = {};
-    if (!searchQueries.length) _errors = { ..._errors, searchQueries: true, };
-    if (!locations.length) _errors = { ..._errors, locations: true, };
-    if (!numberOfResults || numberOfResults < 10) _errors = { ..._errors, numberOfResults: true, };
+    if (!searchQueries.length) _errors = { ..._errors, searchQueries: true };
+    if (!locations.length) _errors = { ..._errors, locations: true };
+    if (!numberOfResults || numberOfResults < 10)
+      _errors = { ..._errors, numberOfResults: true };
 
     setErrors(_errors);
     if (Object.keys(_errors).length) return false;
@@ -146,8 +158,7 @@ export default function Searches(props) {
   };
 
   const handleRunSearch = () => {
-    if (validateFields())
-      setConfirmSearchModalOpen(true);
+    if (validateFields()) setConfirmSearchModalOpen(true);
   };
   const handleClose = () => {
     setConfirmSearchModalOpen(false);
@@ -161,14 +172,14 @@ export default function Searches(props) {
 
   const callback = function (data, param, params) {
     const searchIncrement = 100 / params.length;
-    setSearchResults(prevValue => [...prevValue, { data, param }]);
-    setSearchesCompleted(prevValue => prevValue + searchIncrement);
+    setSearchResults((prevValue) => [...prevValue, { data, param }]);
+    setSearchesCompleted((prevValue) => prevValue + searchIncrement);
     setConductingFirstSearch(false);
   };
 
   const ranOutOfSearches = () => {
-    return user.plan_searches_left == 0;
-  }
+    return user.plan_searches_left === 0;
+  };
 
   const confirmRunSearch = () => {
     if (ranOutOfSearches()) {
@@ -176,14 +187,14 @@ export default function Searches(props) {
       handleClose();
       setSnackbarOpen(true);
       return;
-    };
+    }
     setConductingFirstSearch(true);
     const params = [];
 
     for (let i = 0; i < searchQueries.length; i++) {
       for (let j = 0; j < locations.length; j++) {
         params.push({
-          engine: "google",
+          engine: 'google',
           q: searchQueries[i].query,
           location: locations[j],
           num: numberOfResults,
@@ -194,18 +205,17 @@ export default function Searches(props) {
     params.forEach((param, index) => {
       handleClose();
       axios
-      .post("http://localhost:3000/search", {
-        apiKey: user.api_key,
-        param: param,
-      })
-      .then(function (response) {
-        callback(response.data, param, params);
-        refreshUser();
-      })
-      .catch(function (error) {
-        refreshUser();
-      });
-
+        .post('http://localhost:4000/search', {
+          apiKey: user.api_key,
+          param: param,
+        })
+        .then(function (response) {
+          callback(response.data, param, params);
+          refreshUser();
+        })
+        .catch(function (error) {
+          refreshUser();
+        });
     });
   };
 
@@ -256,22 +266,27 @@ export default function Searches(props) {
           </Button>
         </Box>
         <Paper variant="outlined" square>
-          {searchesCompleted ? <Grow in={searchesCompleted} appear>
-            <Box
-              mt={2}
-              justifyContent="center"
-              align-alignItems="center"
-              textAlign="center"
+          {searchesCompleted ? (
+            <Grow in={searchesCompleted} appear>
+              <Box
+                mt={2}
+                justifyContent="center"
+                align-alignItems="center"
+                textAlign="center"
+              >
+                <LinearProgressWithLabel value={searchesCompleted} />
+              </Box>
+            </Grow>
+          ) : (
+            ''
+          )}
+          <Box justifyContent="right" alignItems="end" textAlign="end">
+            <Button
+              sx={{ borderRadius: 0, m: 0.5 }}
+              onClick={openImportModal}
+              variant="outlined"
+              endIcon={<UploadFileIcon />}
             >
-              <LinearProgressWithLabel value={searchesCompleted} />
-            </Box>
-          </Grow> : ''}
-          <Box
-            justifyContent="right"
-            alignItems="end"
-            textAlign="end"
-          >
-            <Button sx={{ borderRadius: 0, m: 0.5 }} onClick={openImportModal} variant="outlined" endIcon={<UploadFileIcon />}>
               Import
             </Button>
           </Box>
@@ -283,7 +298,7 @@ export default function Searches(props) {
                   onChange={handleChange}
                   TabIndicatorProps={{
                     style: {
-                      display: "none",
+                      display: 'none',
                     },
                   }}
                   variant="scrollable"
@@ -291,16 +306,29 @@ export default function Searches(props) {
                   allowScrollButtonsMobile
                   aria-label="full width tabs example"
                   sx={{
-                    borderBottom: `1px solid ${theme.palette.mode === 'dark' ? 'white' : 'black'}`,
+                    borderBottom: `1px solid ${
+                      theme.palette.mode === 'dark' ? 'white' : 'black'
+                    }`,
                   }}
                 >
                   {searchResults.map((searchResult, index) => (
                     <Tab
                       key={uuid()}
-                      label={(
+                      label={
                         <Grid container>
-                          <Grid item justifyContent="center" sx={{ display: "flex", alignItems: "center" }} xs={10}>
-                            <Tooltip title={searchResult.param.q + ' ' + searchResult.param.location}>
+                          <Grid
+                            item
+                            justifyContent="center"
+                            sx={{ display: 'flex', alignItems: 'center' }}
+                            xs={10}
+                          >
+                            <Tooltip
+                              title={
+                                searchResult.param.q +
+                                ' ' +
+                                searchResult.param.location
+                              }
+                            >
                               <Typography variant="caption" noWrap>
                                 {searchResult.param.q}
                                 {' - '}
@@ -310,18 +338,30 @@ export default function Searches(props) {
                           </Grid>
                           <Grid item textAlign="right" xs={2}>
                             <Tooltip title="Close tab">
-                              <IconButton sx={{ borderRadius: 0.5 }} size="small" onClick={(e) => closeTab(e, index)}>
+                              <IconButton
+                                sx={{ borderRadius: 0.5 }}
+                                size="small"
+                                onClick={(e) => closeTab(e, index)}
+                              >
                                 <CloseIcon fontSize="small" />
                               </IconButton>
                             </Tooltip>
                           </Grid>
                         </Grid>
-                      )}
+                      }
                       wrapped
                       sx={{
-                        border: `${index === value ? `1px solid ${theme.palette.mode === 'dark' ? 'white' : 'black'}` : `1x solid white`}`,
+                        border: `${
+                          index === value
+                            ? `1px solid ${
+                                theme.palette.mode === 'dark'
+                                  ? 'white'
+                                  : 'black'
+                              }`
+                            : `1x solid white`
+                        }`,
                         borderBottom: 'none',
-                        borderRadius: '4px 4px 0 0'
+                        borderRadius: '4px 4px 0 0',
                       }}
                       {...a11yProps(index)}
                     />
@@ -330,16 +370,22 @@ export default function Searches(props) {
                 {searchResults.length ? (
                   searchResults.map((searchResult, index) => (
                     <TabPanel key={uuid()} value={value} index={index}>
-                      <DataTable openImportModal={openImportModal} searchResults={searchResult} />
+                      <DataTable
+                        openImportModal={openImportModal}
+                        searchResults={searchResult}
+                      />
                     </TabPanel>
                   ))
                 ) : (
-                    <Box sx={{ p: 10 }} textAlign="center">
-                      <Typography sx={{ color: 'text.secondary' }} variant="button">
-                        Run search or use import to get results.
-                      </Typography>
-                    </Box>
-                  )}
+                  <Box sx={{ p: 10 }} textAlign="center">
+                    <Typography
+                      sx={{ color: 'text.secondary' }}
+                      variant="button"
+                    >
+                      Run search or use import to get results.
+                    </Typography>
+                  </Box>
+                )}
               </Box>
             </Grid>
           </Grid>
@@ -351,9 +397,23 @@ export default function Searches(props) {
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
       >
-        <Alert variant="filled" elevation={6} onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
-          Your searches for the month are exhausted. You can upgrade plans on <Button href="https://serpapi.com/change-plan"
-                    target="_blank" size="small" endIcon={<OpenInNewIcon />}>SerpApi.com</Button>  website.
+        <Alert
+          variant="filled"
+          elevation={6}
+          onClose={handleCloseSnackbar}
+          severity="error"
+          sx={{ width: '100%' }}
+        >
+          Your searches for the month are exhausted. You can upgrade plans on{' '}
+          <Button
+            href="https://serpapi.com/change-plan"
+            target="_blank"
+            size="small"
+            endIcon={<OpenInNewIcon />}
+          >
+            SerpApi.com
+          </Button>{' '}
+          website.
         </Alert>
       </Snackbar>
       <ConfirmSearchDialog
@@ -371,7 +431,7 @@ export default function Searches(props) {
         user={user}
       />
       <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={conductingFirstSearch}
       >
         <CircularProgress color="inherit" />
