@@ -1,70 +1,112 @@
-# Getting Started with Create React App
+# JL 1.0
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- [About](#about)
+- [Architecture](#architecture)
+- [Demo](#demo)
+- [Features](#features)
+- [Pages](#pages)
+- [FAQ](#faq)
 
-## Available Scripts
+## About
 
-In the project directory, you can run:
+Goal of JL1.0 is to make interaction with Serp API easier and makes gathering information much more convenient. JL1.0 allows you to conduct many searches at the same time as oposed to going to google and doing searches manually one by one and writing notes in some document. Alternatively, you could use SerpAPI dashboard for research, but consuming JSON information the way they present it is not convenient for everyone. JL1.0 will present search data in a table that is easy to consume. JL1.0 will also let you export your searches into a csv(comma separated values) file that you can save for later, or open in excel.
 
-### `npm start`
+## Demo
 
-Runs the app in the development mode.\
-Open [http://localhost:4000](http://localhost:4000) to view it in your browser.
+GIF
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Architecture
 
-### `npm test`
+This application is developed using:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [Electron](https://www.electronjs.org/)
+- [React](https://reactjs.org/)
+- [MaterialUI](https://mui.com/)
+- [Express](https://expressjs.com/)
 
-### `npm run build`
+Electron is a framework for developing cross-platform desktop applications. Therefore this app does not require to be deployed anywhere, thus no server cost at all. The app will run on your computer.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Suported operating systems: `Windows`, `Linux`, `MacOS`.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+UI is written using React and MaterialUI.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+There is a small, basic express server that plays the role of a proxy when interacting with SerpAPI. The express server runs on port 3000.
 
-### `npm run eject`
+## Features
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- [Login Form](#login-form)
+- [Homepage](#Homepage)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## FAQ
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. Where can I find my Serp API key?
+2. Are my searches stored in database?
+3.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+# Pages
 
-## Learn More
+There are basically only two pages in this app, the Login page and the Homepage. Homepage contains pretty much all the features that JL1.0 offers. Below are descriptions of pages and their resposibilities.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Here is list of components in JL1.0:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- [Login Form](#login-form)
+- [Homepage](#Homepage)
 
-### Code Splitting
+## Login Form
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+To login into JL1.0 you need to use private API key provided from the SerpAPI.
+You can find your API key [here](https://serpapi.com/manage-api-key).
 
-### Analyzing the Bundle Size
+![Login Form](./docs/login.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Homepage
 
-### Making a Progressive Web App
+This is the main page of the app. Here you can:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- conduct searches
+- read results in table
+- delete results
+- import results from previous searches
+- download results as a .csv file.
 
-### Advanced Configuration
+![Homepage](./docs/homepage.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## User Menu
 
-### Deployment
+User menu has some useful information about the user. The menu shows informations such as:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- Users email
+- Name of the plan on SerpAPI
+- Searches left in this month
+- Searches per month according to plan on SerpAPI
 
-### `npm run build` fails to minify
+and offers link to useful pages on SerpAPI such as:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- SerpAPI dashboard
+- My Searches page on SerpAPI
+
+and of course the `LOGOUT` button.
+
+![User Menu](./docs/user_menu.png)
+
+## Confirming search
+
+Before runing any search, the app will ask you to review and confirm searches before running them. The modal will popup showing you all the searches that you are about to run as well as how much this will cost you in terms of searches on SerpAPI.
+
+![Confirming search](./docs/confirm_search.png)
+
+## Conducting search
+
+Once you confirm to run a search, search will be conducted and the results will be presented in tables below. Each search will be in it's own tab for you to navigate.
+
+![Conducting search](./docs/search_completed.png)
+
+## Search results
+
+![Conducting search](./docs/search_results.png)
+
+## Deleting results
+
+Apart from just reading the results you are able to remove some of the results if you wish.
+
+![Deleting results](./docs/deleting_results.png)
