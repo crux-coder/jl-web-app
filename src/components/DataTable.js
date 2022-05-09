@@ -70,18 +70,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const {
-    onSelectAllClick,
-    order,
-    orderBy,
-    numSelected,
-    rowCount,
-    onRequestSort,
-  } = props;
-
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
+  const { onSelectAllClick, order, orderBy, numSelected, rowCount } = props;
 
   return (
     <TableHead>
@@ -126,15 +115,8 @@ EnhancedTableHead.propTypes = {
 };
 
 const EnhancedTableToolbar = (props) => {
-  const {
-    numSelected,
-    selected,
-    setSelected,
-    rows,
-    setRows,
-    searchResults,
-    openImportModal,
-  } = props;
+  const { numSelected, selected, setSelected, rows, setRows, searchResults } =
+    props;
   const [csvData, setCsvData] = React.useState([]);
 
   React.useEffect(() => {
@@ -204,7 +186,7 @@ const EnhancedTableToolbar = (props) => {
           </Typography>
         </>
       )}
-      {numSelected == 0 && (
+      {numSelected === 0 && (
         <>
           <CSVLink
             separator={';'}

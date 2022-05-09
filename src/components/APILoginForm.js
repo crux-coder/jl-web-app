@@ -13,7 +13,7 @@ export default function APILoginForm({ setUser }) {
 
   const login = () => {
     axios
-      .post('http://localhost:4000/login', {
+      .post('/login', {
         apiKey,
       })
       .then(function (response) {
@@ -55,6 +55,7 @@ export default function APILoginForm({ setUser }) {
               size="small"
               href="https://serpapi.com/manage-api-key"
               target="_blank"
+              rel="noopener noreferrer"
             >
               HERE
             </Button>
@@ -75,7 +76,11 @@ export default function APILoginForm({ setUser }) {
               error && (
                 <Typography>
                   Invalid API key. Your API key should be here:{' '}
-                  <a href="https://serpapi.com/dashboard" target="_blank">
+                  <a
+                    href="https://serpapi.com/dashboard"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     https://serpapi.com/manage-api-key
                   </a>
                 </Typography>

@@ -104,7 +104,7 @@ export default function Searches(props) {
 
   useEffect(() => {
     refreshUser();
-  }, []);
+  }, [refreshUser]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -149,7 +149,9 @@ export default function Searches(props) {
     if (!searchQueries.length) _errors = { ..._errors, searchQueries: true };
     if (!locations.length) _errors = { ..._errors, locations: true };
     if (!numberOfResults || numberOfResults < 10)
-      _errors = { ..._errors, numberOfResults: true };
+      _errors = { ..._errors, numberOfResultsMin: true };
+    if (!numberOfResults || numberOfResults > 100)
+      _errors = { ..._errors, numberOfResultsMax: true };
 
     setErrors(_errors);
     if (Object.keys(_errors).length) return false;
@@ -205,7 +207,7 @@ export default function Searches(props) {
     params.forEach((param, index) => {
       handleClose();
       axios
-        .post('http://localhost:4000/search', {
+        .post('/search', {
           apiKey: user.api_key,
           param: param,
         })

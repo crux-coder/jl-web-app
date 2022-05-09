@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const axios = require('axios');
+const path = require('path');
 
 const app = express();
 const port = 4000;
@@ -13,6 +14,12 @@ app.use(
     extended: true,
   })
 );
+
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 app.use('/login', (req, res) => {
   const { apiKey } = req.body;
@@ -44,8 +51,6 @@ app.use('/import-search', (req, res) => {
 
 app.use('/search', (req, res) => {
   const { apiKey, param } = req.body;
-  console.log(apiKey, param);
-  console.log('LOL');
   axios
     .get(
       `https://serpapi.com/search?q=${param.q}&location=${param.location}&num=${param.num}&api_key=${apiKey}`

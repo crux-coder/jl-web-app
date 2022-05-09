@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from '@mui/material';
-import { ThemeProvider, createTheme, useTheme } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import axios from 'axios';
 import APILoginForm from './components/APILoginForm';
 import NavBar from './components/NavBar';
@@ -43,7 +43,7 @@ export default function App() {
 
   const refreshUser = () => {
     axios
-      .post('http://localhost:4000/login', {
+      .post('/login', {
         apiKey: user.api_key,
       })
       .then(function (response) {

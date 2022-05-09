@@ -1,21 +1,21 @@
-import * as React from "react";
-import { useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Chip from "@mui/material/Chip";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import { Autocomplete, Divider, Typography } from "@mui/material";
-import Locations from "../assets/locations";
-import PropTypes from "prop-types";
-import { autocompleteClasses } from "@mui/material/Autocomplete";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import ListSubheader from "@mui/material/ListSubheader";
-import Popper from "@mui/material/Popper";
-import { styled } from "@mui/material/styles";
-import { VariableSizeList } from "react-window";
+import * as React from 'react';
+import { useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Chip from '@mui/material/Chip';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import { Autocomplete, Divider, Typography } from '@mui/material';
+import Locations from '../assets/locations';
+import PropTypes from 'prop-types';
+import { autocompleteClasses } from '@mui/material/Autocomplete';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import ListSubheader from '@mui/material/ListSubheader';
+import Popper from '@mui/material/Popper';
+import { styled } from '@mui/material/styles';
+import { VariableSizeList } from 'react-window';
 
 const LISTBOX_PADDING = 8; // px
 
@@ -27,7 +27,7 @@ function renderRow(props) {
     top: style.top + LISTBOX_PADDING,
   };
 
-  if (dataSet.hasOwnProperty("group")) {
+  if (dataSet.hasOwnProperty('group')) {
     return (
       <ListSubheader key={dataSet.key} component="div" style={inlineStyle}>
         {dataSet.group}
@@ -72,7 +72,7 @@ const ListboxComponent = React.forwardRef(function ListboxComponent(
   });
 
   const theme = useTheme();
-  const smUp = useMediaQuery(theme.breakpoints.up("sm"), {
+  const smUp = useMediaQuery(theme.breakpoints.up('sm'), {
     noSsr: true,
   });
 
@@ -80,7 +80,7 @@ const ListboxComponent = React.forwardRef(function ListboxComponent(
   const itemSize = smUp ? 36 : 48;
 
   const getChildSize = (child) => {
-    if (child.hasOwnProperty("group")) {
+    if (child.hasOwnProperty('group')) {
       return 48;
     }
 
@@ -123,31 +123,33 @@ ListboxComponent.propTypes = {
 
 const StyledPopper = styled(Popper)({
   [`& .${autocompleteClasses.listbox}`]: {
-    boxSizing: "border-box",
-    "& ul": {
+    boxSizing: 'border-box',
+    '& ul': {
       padding: 0,
       margin: 0,
     },
   },
 });
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-
-export default function GeoLocationSelect({ locations, setLocations, errors, setErrors }) {
-  const theme = useTheme();
-
+export default function GeoLocationSelect({
+  locations,
+  setLocations,
+  errors,
+  setErrors,
+}) {
   const handleReset = () => {
-    setLocations(["United States"]);
+    setLocations(['United States']);
 
     delete errors.locations;
     setErrors(errors);
   };
 
   const handleDelete = (value) => {
-    setLocations(locations.filter((location) => {
-      return location !== value;
-    }));
+    setLocations(
+      locations.filter((location) => {
+        return location !== value;
+      })
+    );
   };
 
   const handleChange = (event, value) => {
@@ -175,13 +177,24 @@ export default function GeoLocationSelect({ locations, setLocations, errors, set
           options={Locations}
           value={locations}
           onChange={handleChange}
-          renderInput={(params) => <TextField
-            error={errors.locations?.toString()}
-            helperText={errors.locations && 'You must have at least one location selected.'} {...params} />}
+          renderInput={(params) => (
+            <TextField
+              error={errors.locations?.toString()}
+              helperText={
+                errors.locations &&
+                'You must have at least one location selected.'
+              }
+              {...params}
+            />
+          )}
           renderTags={(selected) => (
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
-                <Chip key={value} label={value} onDelete={() => handleDelete(value)} />
+                <Chip
+                  key={value}
+                  label={value}
+                  onDelete={() => handleDelete(value)}
+                />
               ))}
             </Box>
           )}
@@ -189,7 +202,7 @@ export default function GeoLocationSelect({ locations, setLocations, errors, set
         />
       </CardContent>
       <CardActions>
-        <Box sx={{ width: "100%", display: "flex", justifyContent: "end" }}>
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'end' }}>
           <Button
             onClick={handleReset}
             variant="outlined"

@@ -1,16 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import LoadingButton from '@mui/lab/LoadingButton';
-import {
-  Button,
-  Divider,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemButton,
-  TextField,
-  Chip,
-} from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -18,12 +9,8 @@ import Slide from '@mui/material/Slide';
 import '../assets/css/App.css';
 import Typography from '@mui/material/Typography';
 import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import axios from 'axios';
-import { green } from '@mui/material/colors';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import _ from 'lodash';
-import moment from 'moment';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -38,7 +25,7 @@ export default function ConfirmImportDialog(props) {
   const confirmImport = () => {
     setImporting(true);
     axios
-      .post('http://localhost:4000/import-search', {
+      .post('/import-search', {
         apiKey: user.api_key,
         searchId: searchId,
       })
