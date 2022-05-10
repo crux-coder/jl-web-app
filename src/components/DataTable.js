@@ -213,7 +213,7 @@ EnhancedTableToolbar.propTypes = {
 };
 export default function DataTable({ searchResults, openImportModal }) {
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
+  const [orderBy, setOrderBy] = React.useState('rank');
   const [selected, setSelected] = React.useState([]);
   const [rows, setRows] = React.useState(
     searchResults?.data?.organic_results || {}

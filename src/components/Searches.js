@@ -104,7 +104,8 @@ export default function Searches(props) {
 
   useEffect(() => {
     refreshUser();
-  }, [refreshUser]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
